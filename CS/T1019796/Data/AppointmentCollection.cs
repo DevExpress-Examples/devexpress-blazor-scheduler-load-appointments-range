@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Blazor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,13 @@ namespace T1019796.Data
 
         public static IEnumerable<Appointment> GetAppointments(DateTime startDate, DateTime endDate)
         {
-            var result = GenerateAppointments().Where(p => p.StartDate >= startDate && p.EndDate <= endDate);
+            var result = GenerateAppointments().Where(p =>
+                (p.StartDate >= startDate && p.EndDate <= endDate) ||       // start and end date are in the interval
+                (p.StartDate >= startDate && p.StartDate <= endDate) ||     // start date is in the interval, but end date is not
+                (p.EndDate >= startDate && p.EndDate <= endDate) ||         // end date is in the interval, but start date is not
+                (p.StartDate < startDate && p.EndDate > endDate) ||         // appointment interval is larger than the selected interval 
+                (p.AppointmentType != (int)SchedulerAppointmentType.OneTime)//always load all recurrent appointments
+            );
             return result;
         }
 
