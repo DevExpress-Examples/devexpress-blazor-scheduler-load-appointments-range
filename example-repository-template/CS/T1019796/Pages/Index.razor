@@ -1,0 +1,78 @@
+﻿@page "/"
+@using T1019796.Data
+@using T1019796.Utils
+<span>Appointments count: @apptCount</span>
+
+<DxScheduler 
+             StartDate="currentDate"
+             StartDateChanged="OnStartDateChanged"
+             ActiveViewType="activeType"
+             ActiveViewTypeChanged="OnActiveViewChanged"
+             DataStorage="@DataStorage"
+             CssClass="w-100">
+    <DxSchedulerDayView DayCount="1" ShowWorkTimeOnly="false"></DxSchedulerDayView>
+    <DxSchedulerWeekView></DxSchedulerWeekView>
+    <DxSchedulerMonthView CellMinWidth="120"></DxSchedulerMonthView>
+</DxScheduler>
+@code {
+    int apptCount = 0;
+    DateTime currentDate = DateTime.Today;
+    DateTime startDate = new DateTime();
+    DateTime endDate = new DateTime();
+    SchedulerViewType activeType = SchedulerViewType.Day;
+    DxSchedulerDataStorage DataStorage = new DxSchedulerDataStorage()
+    {
+        AppointmentMappings = new DxSchedulerAppointmentMappings()
+        {
+            Id = "AppointmentId",
+            Type = "AppointmentType",
+            Start = "StartDate",
+            End = "EndDate",
+            Subject = "Caption",
+            AllDay = "AllDay",
+            Location = "Location",
+            Description = "Description",
+            LabelId = "Label",
+            StatusId = "Status"
+        }
+    };
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LoadAppointments();
+    }
+    void OnStartDateChanged(DateTime newStartDate)
+    {
+        currentDate = newStartDate;
+        LoadAppointments();
+    }
+
+    void OnActiveViewChanged(SchedulerViewType newView)
+    {
+        activeType = newView;
+        LoadAppointments();
+    }
+    void LoadAppointments()
+    {
+        switch (activeType)
+        {
+            case SchedulerViewType.Day:
+                startDate = currentDate;
+                endDate = currentDate.AddDays(1);
+                break;
+            case SchedulerViewType.Week:
+                startDate = currentDate.StartOfWeek(DayOfWeek.Sunday);
+                endDate = startDate.AddDays(7);
+                break;
+            case SchedulerViewType.Month:
+                startDate = currentDate.StartOfMonth();
+                endDate = currentDate.AddMonths(1);
+                break;
+        }
+        var newDataSource = AppointmentCollection.GetAppointments(startDate, endDate);
+
+        DataStorage.AppointmentsSource = newDataSource;
+        DataStorage.RefreshData();
+        apptCount = newDataSource.ToList().Count;
+    }
+}
