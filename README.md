@@ -1,7 +1,4 @@
 # Scheduler for Blazor - How to load appointments for visible interval only (lazy loading)
-<!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/394308797/)**
-<!-- run online end -->
 
 This example illustrates how to load only the required portion of appointments depending on the current View and visible interval. 
 
