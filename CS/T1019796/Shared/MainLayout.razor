@@ -24,17 +24,17 @@
             }
         </Columns>
         <Items>
-            <DxGridLayoutItem Area="header">
+            <DxGridLayoutItem Area="header" CssClass="layout-item">
                 <Template>
                     <Header @bind-ToggleOn="@IsSidebarExpanded" />
                 </Template>
             </DxGridLayoutItem>
-            <DxGridLayoutItem Area="sidebar">
+            <DxGridLayoutItem Area="sidebar" CssClass="layout-item">
                 <Template>
                     <NavMenu StateCssClass="@NavMenuCssClass" />
                 </Template>
             </DxGridLayoutItem>
-            <DxGridLayoutItem Area="content" CssClass="content px-4">
+            <DxGridLayoutItem Area="content" CssClass="content px-4 layout-item">
                 <Template>
                     @Body
                 </Template>
@@ -44,8 +44,7 @@
     </div>
 
 @code{
-    string NavMenuCssClass { get; set; }
-
+    string? NavMenuCssClass { get; set; }
     bool _isMobileLayout;
     bool IsMobileLayout {
         get => _isMobileLayout;
@@ -69,8 +68,7 @@
     protected override void OnInitialized() {
         NavigationManager.LocationChanged += OnLocationChanged;
     }
-
-    async void OnLocationChanged(object sender, LocationChangedEventArgs args) {
+    async void OnLocationChanged(object? sender, LocationChangedEventArgs args) {
         if(IsMobileLayout) {
             IsSidebarExpanded = false;
             await InvokeAsync(StateHasChanged);

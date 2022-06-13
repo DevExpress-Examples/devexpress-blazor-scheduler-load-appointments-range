@@ -1,10 +1,10 @@
 ﻿@page "/"
 @using T1019796.Data
 @using T1019796.Utils
+
 <span>Appointments count: @apptCount</span>
 
-<DxScheduler 
-             StartDate="currentDate"
+<DxScheduler StartDate="currentDate"
              StartDateChanged="OnStartDateChanged"
              ActiveViewType="activeType"
              ActiveViewTypeChanged="OnActiveViewChanged"
