@@ -2,7 +2,7 @@
     flex-grow: 0;
     flex-wrap: nowrap;
     border: none;
-    background-color: #fff;
+    background-color: inherit;
     border-radius: 0;
     height: 3.5rem;
     min-height: 3.5rem;

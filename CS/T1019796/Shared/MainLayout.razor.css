@@ -1,6 +1,12 @@
 ﻿.page {
     height: 100%;
     overflow: hidden;
+    background-color: inherit;
+}
+::deep .page-layout,
+::deep .page-layout > .dx-gridlayout-root,
+::deep .layout-item {
+    background-color: inherit;
 }
 
 ::deep .content {
