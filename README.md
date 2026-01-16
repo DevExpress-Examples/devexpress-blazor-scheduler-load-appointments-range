@@ -59,6 +59,10 @@ void LoadAppointments() {
             startDate = currentDate.StartOfMonth();
             endDate = currentDate.AddMonths(1);
             break;
+        case SchedulerViewType.Timeline:
+            startDate = currentDate;
+            endDate = currentDate.Add(timeLineDuration);
+            break;
     }
     var newDataSource = AppointmentCollection.GetAppointments(startDate, endDate);
     DataStorage.AppointmentsSource = newDataSource;
